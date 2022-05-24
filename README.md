@@ -12,16 +12,19 @@
 
 ## Dependencies
 
-* bash
-* util-linux
-* procps or procps-ng
-* hostapd
-* iproute2
-* iw
-* iwconfig
-* haveged
-* dnsmasq
-* iptables
+- bash (to run this script)
+- util-linux (for getopt)
+- procps or procps-ng
+- hostapd
+- iproute2
+- iw
+- iwconfig (you only need this if 'iw' can not recognize your adapter)
+- haveged (optional)
+
+Dependencies for 'NAT' or 'None' Internet sharing method
+
+- dnsmasq
+- iptables
 
 ```bash
 sudo apt install -y libgtk-3-dev build-essential gcc g++ pkg-config make hostapd libqrencode-dev libpng-dev
