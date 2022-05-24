@@ -165,4 +165,3 @@ _create_ap() {
 }
 complete -F _create_ap create_ap
 
-# vim: set ft=sh:
