@@ -17,3 +17,4 @@ uninstall:
 	rm -f $(DESTDIR)/etc/create_ap.conf
 	rm -f $(DESTDIR)$(PREFIX)/lib/systemd/system/create_ap.service
 	rm -f $(DESTDIR)$(PREFIX)/share/bash-completion/completions/create_ap
+
