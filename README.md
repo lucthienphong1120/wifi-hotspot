@@ -1,81 +1,107 @@
-# roguehostapd
-Roguehostapd is a fork of hostapd, the famous user space software access point. It provides Python ctypes bindings and a number of additional attack features. It was primarily developed for use in the Wifiphisher project.
+## Wifi Hotspot
+* Create an AP (Access Point) at any channel.
+* Choose one of the following encryptions: WPA, WPA2, WPA/WPA2, Open (no encryption).
+* Hide your SSID.
+* Disable communication between clients (client isolation).
+* IEEE 802.11n & 802.11ac support
+* Internet sharing methods: NATed or Bridged or None (no Internet sharing).
+* Choose the AP Gateway IP (only for 'NATed' and 'None' Internet sharing methods).
+* You can create an AP with the same interface you are getting your Internet connection.
+* You can pass your SSID and password through pipe or through arguments (see examples).
+* Customise wifi Channel, Change MAC address, etc.
+* Hide SSID
+* customize gateway IP address
+* Enable IEEE 80211n, IEEE 80211ac modes
+
+## Dependencies
+
+* bash
+* util-linux
+* procps or procps-ng
+* hostapd
+* iproute2
+* iw
+* iwconfig
+* haveged
+* dnsmasq
+* iptables
+
+```bash
+sudo apt install -y libgtk-3-dev build-essential gcc g++ pkg-config make hostapd libqrencode-dev libpng-dev
+```
 
 ## Installation
 
-
-### Requirements
-
-```
-apt-get install libnl-3-dev libnl-genl-3-dev
-apt-get install libssl-dev
-```
-
-#### Build the repo
-
-```
-git clone https://github.com/wifiphisher/roguehostapd.git # Download the latest version
-cd roguehostapd # Switch to the roguehostapd directory
-python setup.py install # Build the shared library of hostapd
+```bash
+git clone https://github.com/lucthienphong1120/wifi-hotspot
+cd wifi-hotspot
+make install
 ```
 
 ## Usage
 
-***
-
-```shell
-python run.py -i wlan0 -ssid Haha
+```
+create_ap <interface> <interface-with-internet> <SSID> <passphrase>
 ```
 
-Use wlan0 for spawning the OPEN rogue AP on channel 6 and the ssid is "Haha".
+### No passphrase (open network)
 
-***
-
-```shell
-python run.py -i wlan0 -ssid Haha -pW 12345678
+```
+create_ap wlan0 eth0 HelloWorld
 ```
 
-Use wlan0 for spawning the WPA2/WPA rogue AP with passhrase 12345678
+This will create an open network with SSID "HelloWorld" on wlan0.
 
-***
+### WPA/WPA2 passphrase
 
-```shell
-python run.py -i wlan0 -ssid Haha -kA
+```
+create_ap wlan0 eth0 HelloWorld 12345678
 ```
 
-Use wlan0 for spawning the OPEN rogue AP supporting the KARMA attack.
+This will create a WPA/WPA2 network with SSID "HelloWorld" and passphrase "12345678" on wlan0.
 
-***
+### AP without Internet sharing
 
-```python
-HOSTAPD_CONFIG_DICT = {
-    'ssid': 'Haha',
-    'interface': 'wlan0',
-    'karma_enable': 1}
-HOSTAPD_OPTION_DICT = {
-    'debug_level': hostapd_constants.HOSTAPD_DEBUG_OFF
-}
-HOSTAPD_OBJ = Hostapd()
-HOSTAPD_OBJ.start(HOSTAPD_CONFIG_DICT, HOSTAPD_OPTION_DICT)
+```
+create_ap -n wlan0 HelloWorld 12345678
 ```
 
-The above configuration will perform the KARMA attack.
+### Bridged Internet sharing
 
-Following are all the options along with their descriptions (also available with `python run.py -h`)
+```
+create_ap -m bridge wlan0 eth0 HelloWorld 12345678
+```
+
+### Choose a different WiFi adapter driver
+
+```
+create_ap --driver rtl871xdrv wlan0 eth0 HelloWorld 12345678
+```
+
+### Enable IEEE 802.11n
+
+```
+create_ap --ieee80211n --ht_capab '[HT40+]' wlan0 eth0 HelloWorld 12345678
+```
+
+### Client Isolation
+
+```
+create_ap --isolate-clients wlan0 eth0 HelloWorld 12345678
+```
 
 
-| Short form | Long form | Explanation |
-| :----------: | :---------: | :-----------: |
-|-h | --help| show this help message and exit |
-|-ssid SSID| --ssid SSID| Select the ssid for the spawn rogue AP|
-|-c CHANNEL| --channel CHANNEL| Select the channel number for the spawn rogue AP|
-|-bI BEACON_INT| --beacon_int BEACON_INT| Define the beacon interval in milliseconds for the spawn rogue AP|
-|-i INTERFACE| --interface INTERFACE| Select the interface for the spawn rogue AP. Example: -i wlan0|
-|-pW WPA_PASSPHRASE| --wpa_passphrase WPA_PASSPHRASE| Define the password for the spawn rogue AP.|
-|-kA|| Enabling the KARMA attack|
-|-dV|--debug-verbose| Enabling the verbose debug log|
-|-K|--key_data|Include key data in debug messages|
-|-t|--timestamp|Include timestamps in some debug messages|
-|-v|--version|Show hostapd version|
+## Systemd service
+Using the persistent [systemd](https://wiki.archlinux.org/index.php/systemd#Basic_systemctl_usage) service
 
-Project from [wifiphisher](https://github.com/wifiphisher/roguehostapd)
+### Start service immediately:
+
+```
+systemctl start create_ap
+```
+
+### Start on boot:
+
+```
+systemctl enable create_ap
+```
