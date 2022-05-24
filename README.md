@@ -35,6 +35,12 @@ cd wifi-hotspot
 make install
 ```
 
+## Uninstall
+
+```
+make uninstall
+```
+
 ## Usage
 
 ```
