@@ -1,17 +1,14 @@
-## Wifi Hotspot
-* Create an AP (Access Point) at any channel.
+# Wifi Hotspot
+
+* Create an AP (Access Point) with passphrase and internet connection.
 * Choose one of the following encryptions: WPA, WPA2, WPA/WPA2, Open (no encryption).
 * Hide your SSID.
 * Disable communication between clients (client isolation).
-* IEEE 802.11n & 802.11ac support
+* Enable IEEE 802.11n & 802.11ac modes support
 * Internet sharing methods: NATed or Bridged or None (no Internet sharing).
 * Choose the AP Gateway IP (only for 'NATed' and 'None' Internet sharing methods).
 * You can create an AP with the same interface you are getting your Internet connection.
-* You can pass your SSID and password through pipe or through arguments (see examples).
 * Customise wifi Channel, Change MAC address, etc.
-* Hide SSID
-* customize gateway IP address
-* Enable IEEE 80211n, IEEE 80211ac modes
 
 ## Dependencies
 
