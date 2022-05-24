@@ -1,6 +1,6 @@
 # Wifi Hotspot
 
-* Create an AP (Access Point) with passphrase and internet connection.
+* Create an AP (Access Point) with password encryption and internet connection.
 * Choose one of the following encryptions: WPA, WPA2, WPA/WPA2, Open (no encryption).
 * Hide your SSID.
 * Disable communication between clients (client isolation).
